@@ -1,4 +1,5 @@
 import random
+import mysql.connector as pysql
 X = [[" ▄▄   ▄▄  "],
      ["█  █▄█  █ "],
      ["█       █ "],
@@ -20,6 +21,34 @@ S = [["          "],
      ["          "],
      ["          "],
      ["          "]]
+#connecting to database use user='root',passwd='Isalain',database="tictactoe"
+conn = pysql.connect(host="localhost",user="gay",database='test')
+c = conn.cursor()
+#checking i the table score exists
+c.execute("show tables ")
+data=c.fetchall()
+if "score" not in data[0]:
+    c.execute("CREATE TABLE score(name varchar(15), win int(3),loss int(3),draw int(3))")
+#verified
+#login
+def checkUser(user):
+    c.execute("SELECT * FROM score")
+    data = c.fetchall()
+    if user in data[0]:
+        print("hello"+name)
+    else:
+        cmd="INSERT INTO score VALUES('"+name+"',0,0,0)"
+        c.execute(cmd)
+        print(cmd)
+        input()
+while True:
+    try:
+        name = input("Enter your name :")
+        checkUser(name)
+        break
+    except:
+        continue
+#
 def printboard(board,trail=''):
     for i in range(3):
         for k in range(7):
@@ -175,6 +204,12 @@ def EAI(board):
     while True:
         playerMove(X)
         if checkwon(board):
+            cmd = "SELECT win FROM score WHERE name='"+name+"'"
+            c.execute(cmd)
+            data=c.fetchall()
+            new_score=data[0][0]+1
+            cmd = "UPDATE score SET win="+str(new_score)+" WHERE name='"+name+"'"
+            c.execute(cmd)
             winscreen(checkwon(board),'y')
             break
         if not isMovesLeft(board):
@@ -273,12 +308,6 @@ def menu():
 3 to Quit:
 ''')
     return int(input("Enter (1/2/3): "))
-while True:
-    try:
-        name = input("Enter your name :")
-        break
-    except:
-        continue
 
 mode = 0
 while True:
