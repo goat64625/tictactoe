@@ -30,8 +30,8 @@ data=c.fetchall()
 if "score" not in data[0]:
     c.execute("CREATE TABLE score(name varchar(15), win int(3),loss int(3),draw int(3))")
 #verified
-#login
-def checkUser(user):
+#login/creat a user
+def login(user):
     c.execute("SELECT * FROM score")
     data = c.fetchall()
     if user in data[0]:
@@ -41,14 +41,37 @@ def checkUser(user):
         c.execute(cmd)
         print(cmd)
         input()
+
 while True:
     try:
         name = input("Enter your name :")
-        checkUser(name)
+        login(name)
         break
     except:
         continue
-#
+#add to win loss and draw
+def updateScore(name,s):
+    cmd = "SELECT * FROM score WHERE name='"+name+"'"
+    c.execute(cmd)
+    data=c.fetchall()
+    if s == "win":
+        new_score=data[0][1]+1
+        cmd = "UPDATE score SET win="+str(new_score)+" WHERE name='"+name+"'"
+        c.execute(cmd)
+    elif s == "loss":
+        new_score=data[0][2]+1
+        cmd = "UPDATE score SET loss="+str(new_score)+" WHERE name='"+name+"'"
+        c.execute(cmd)
+    else:
+        new_score=data[0][3]+1
+        cmd = "UPDATE score SET draw="+str(new_score)+" WHERE name='"+name+"'"
+        c.execute(cmd)
+def printTable():
+    print("NAME"," "* int(len(name)-3), "WIN  LOSS  DRAW")
+    for row in data:
+        for i in range(0,4):
+            print(row[i],end="    ")
+        print()
 def printboard(board,trail=''):
     for i in range(3):
         for k in range(7):
@@ -204,15 +227,11 @@ def EAI(board):
     while True:
         playerMove(X)
         if checkwon(board):
-            cmd = "SELECT win FROM score WHERE name='"+name+"'"
-            c.execute(cmd)
-            data=c.fetchall()
-            new_score=data[0][0]+1
-            cmd = "UPDATE score SET win="+str(new_score)+" WHERE name='"+name+"'"
-            c.execute(cmd)
             winscreen(checkwon(board),'y')
+            updateScore(name,"win")
             break
         if not isMovesLeft(board):
+            updateScore(name,"draw")
             print("its a draw")
             input('enter to start')
             menu()
@@ -226,6 +245,7 @@ def EAI(board):
         board[int(Opos[0])-1][int(Opos[1])-1] = O 
         if checkwon(board):
             winscreen(checkwon(board))
+            updateScore(name,"loss")
             board = [[S,S,S],[S,S,S],[S,S,S]]
             break
         printboard(board)
@@ -239,9 +259,11 @@ def HAI(board):
             playerMove(player)
             if checkwon(board) != None:
                 winscreen(checkwon(board),'y')
+                updateScore(name,"win")
                 break
             if not isMovesLeft(board):
                 printboard(board)
+                updateScore(name,"draw")
                 print("its a draw")
                 input('enter to start')
                 break
@@ -249,9 +271,11 @@ def HAI(board):
             board[bestMove[0]][bestMove[1]] = AI
             if checkwon(board) != None:
                 winscreen(checkwon(board))
+                updateScore(name,"loss")
                 break
             if not isMovesLeft(board):
                 printboard(board)
+                updateScore(name,"draw")
                 print("its a draw")
                 input('enter to start')
                 break
@@ -263,9 +287,11 @@ def HAI(board):
             board[bestMove[0]][bestMove[1]] = AI
             if checkwon(board) != None:
                 winscreen(checkwon(board))
+                updateScore(name,"loss")
                 break
             if not isMovesLeft(board):
                 printboard(board)
+                updateScore(name,"draw")
                 print("its a draw")
                 input('enter to start')
                 break
