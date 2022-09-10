@@ -68,13 +68,14 @@ def printTable():
     cmd = "SELECT * FROM score ORDER BY win desc"
     c.execute(cmd)
     data=c.fetchall()
-    m =0
+    largest_Name =0
     for rows in data:
-        if m < len(rows[0]):
-            m = len(rows[0])
-    print("Name"," "*int(m-2),"win   loss   draw")
+        if  < len(rows[0]):
+            largest_Name = len(rows[0])
+    print("Name"," "*int(largest_Name-2),"win | loss | draw")
+    print("----------------------------------")
     for row in data:
-        print(row[0],end=" "*int(m-len(row[0])+4))
+        print(row[0],end=" "*int(largest_Name-len(row[0])+4))
         for i in range(1,4):
             print(row[i],end=" "*int(7-len(str(row[i]))))
         print()
@@ -240,7 +241,6 @@ def EAI(board):
             updateScore(name,"draw")
             print("its a draw")
             input('enter to start')
-            menu()
             break
         while True:
             Opos = ['11','12','13','21','22','23','31','32','33'][random.randint(0,8)]
@@ -360,6 +360,5 @@ while True:
         input("Enter to go back :")
     elif mode == 3:
         break
-
 conn.commit()
 conn.close()
