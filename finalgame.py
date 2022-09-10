@@ -65,14 +65,13 @@ def updateScore(name,s):
         cmd = "UPDATE score SET draw="+str(new_score)+" WHERE name='"+name+"'"
         c.execute(cmd)
 def printTable():
-    cmd = "SELECT * FROM score"
+    cmd = "SELECT * FROM score ORDER BY win desc"
     c.execute(cmd)
     data=c.fetchall()
     m =0
     for rows in data:
         if m < len(rows[0]):
             m = len(rows[0])
-    print(m)
     print("Name"," "*int(m-2),"win   loss   draw")
     for row in data:
         print(row[0],end=" "*int(m-len(row[0])+4))
@@ -361,3 +360,6 @@ while True:
         input("Enter to go back :")
     elif mode == 3:
         break
+
+conn.commit()
+conn.close()
