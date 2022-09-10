@@ -32,16 +32,14 @@ if "score" not in data[0]:
 #verified
 #login/creat a user
 def login(user):
-    c.execute("SELECT * FROM score")
+    cmd = "SELECT * FROM score WHERE name='"+user+"'"
+    c.execute(cmd)
     data = c.fetchall()
-    if user in data[0]:
-        print("hello"+name)
-    else:
-        cmd="INSERT INTO score VALUES('"+name+"',0,0,0)"
+    if data == []:
+        cmd="INSERT INTO score VALUES('"+user+"',0,0,0)"
         c.execute(cmd)
-        print(cmd)
-        input()
-
+    else:
+        print("hello"+user)
 while True:
     try:
         name = input("Enter your name :")
@@ -67,10 +65,19 @@ def updateScore(name,s):
         cmd = "UPDATE score SET draw="+str(new_score)+" WHERE name='"+name+"'"
         c.execute(cmd)
 def printTable():
-    print("NAME"," "* int(len(name)-3), "WIN  LOSS  DRAW")
+    cmd = "SELECT * FROM score"
+    c.execute(cmd)
+    data=c.fetchall()
+    m =0
+    for rows in data:
+        if m < len(rows[0]):
+            m = len(rows[0])
+    print(m)
+    print("Name"," "*int(m-2),"win   loss   draw")
     for row in data:
-        for i in range(0,4):
-            print(row[i],end="    ")
+        print(row[0],end=" "*int(m-len(row[0])+4))
+        for i in range(1,4):
+            print(row[i],end=" "*int(7-len(str(row[i]))))
         print()
 def printboard(board,trail=''):
     for i in range(3):
@@ -350,6 +357,7 @@ while True:
         elif mode == 3:
                 HAI(board)
     elif mode == 2:
-        pass
+        printTable()
+        input("Enter to go back :")
     elif mode == 3:
         break
