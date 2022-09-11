@@ -70,7 +70,7 @@ def printTable():
     data=c.fetchall()
     largest_Name =0
     for rows in data:
-        if  < len(rows[0]):
+        if largest_Name < len(rows[0]):
             largest_Name = len(rows[0])
     print("Name"," "*int(largest_Name-2),"win | loss | draw")
     print("----------------------------------")
