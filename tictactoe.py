@@ -21,11 +21,10 @@ S = [["          "],
      ["          "],
      ["          "],
      ["          "]]
-#connecting to database use user='root',passwd='Isalain',database="tictactoe"
-conn = pysql.connect(host="localhost",user="gay",database='test')
+conn = pysql.connect(host="localhost",user="goat",database='tictactoe')
 c = conn.cursor()
-#checking i the table score exists
-c.execute("show tables ")
+#checking if the table "score" exists
+c.execute("show tables")
 data=c.fetchall()
 print(data)
 if ('score',) not in data:
@@ -43,7 +42,6 @@ def login(user):
         print("hello"+user)
 while True:
     print('''
-
 ████████╗██╗ ██████╗    ████████╗ █████╗  ██████╗    ████████╗ ██████╗ ███████╗
 ╚══██╔══╝██║██╔════╝    ╚══██╔══╝██╔══██╗██╔════╝    ╚══██╔══╝██╔═══██╗██╔════╝
    ██║   ██║██║            ██║   ███████║██║            ██║   ██║   ██║█████╗  
@@ -190,7 +188,6 @@ def winscreen(winner,player=None):
     print("█","▄"*33,"█",sep='')
     if winner == X:
         print('''
-
 ██╗██╗██╗    ██╗  ██╗    ██╗███████╗    ████████╗██╗  ██╗███████╗    ██╗    ██╗██╗███╗   ██╗███╗   ██╗███████╗██████╗     ██╗██╗██╗
 ██║██║██║    ╚██╗██╔╝    ██║██╔════╝    ╚══██╔══╝██║  ██║██╔════╝    ██║    ██║██║████╗  ██║████╗  ██║██╔════╝██╔══██╗    ██║██║██║
 ██║██║██║     ╚███╔╝     ██║███████╗       ██║   ███████║█████╗      ██║ █╗ ██║██║██╔██╗ ██║██╔██╗ ██║█████╗  ██████╔╝    ██║██║██║
@@ -271,7 +268,6 @@ def Mgame():
             input('enter to start')
             break
 def EAI(board):
-    global winner
     while True:
         playerMove(X)
         if checkwon(board):
@@ -436,7 +432,6 @@ def menu():
                                     `-._.-'
 ''')
     return int(input("Enter (1/2/3)"))
-
 mode = 0
 while True:
     board = [[S,S,S],[S,S,S],[S,S,S]]

@@ -248,7 +248,6 @@ def Mgame():
             input('enter to start')
             break
 def EAI(board):
-    global winner
     while True:
         playerMove(X)
         if checkwon(board):
